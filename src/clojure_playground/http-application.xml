@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="38454c94-5009-4b63-9541-f4065f132616" basePath="v1" >
+		<http:request-connection protocol="HTTPS" host="api.thedogapi.com" port="443" />
+	</http:request-config>
+	<flow name="http-applicationFlow" doc:id="64ec557d-70b6-4523-ad76-9de99d37e33c" >
+		<scheduler doc:name="Scheduler" doc:id="228c226a-14f4-41b8-8dfe-7135f41ae69d" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="1" timeUnit="DAYS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger" doc:id="c8050820-56c8-4c48-9a1c-3dc48a51add6" message="Before HTTP"/>
+		<http:request method="GET" doc:name="Request" doc:id="c41f1b6e-dc4b-4591-8bb2-7bf1f749942d" config-ref="HTTP_Request_configuration" path="breeds"/>
+		<ee:transform doc:name="Transform Message" doc:id="c3363ed3-7add-4340-b700-48b91f81fd25" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map {
+	breed: $.name
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="Write" doc:id="057930ff-c402-4ac6-99c7-f7f215dacc0e" path="/home/felipe/Downloads/test-mule.json"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9946059d-85ec-4e5c-942b-7483cf1a7214" message="After writing to file"/>
+	</flow>
+</mule>
