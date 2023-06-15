@@ -24,9 +24,15 @@ FIXME: listing of options this app accepts.
 
 ...
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+### References
+[https://www.salesforceben.com/salesforce-integration/
+](https://clojure-doc.org/articles/tutorials/basic_web_development/)
+https://clojure.org/reference/compilation#_gen_class_examples
+https://github.com/clojerl/example-web-app/tree/master
+https://github.com/clj-commons/clj-yaml/blob/master/doc/01-user-guide.adoc
+https://practical.li/blog/posts/consuming-apis-with-clojure/
+https://clojurescript.org/guides/quick-start
+https://emacs-lsp.github.io/lsp-mode/tutorials/clojure-guide/
 
 ## License
 
